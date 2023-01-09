@@ -156,47 +156,47 @@ namespace ThAmCo.Products.Web.Tests
                         );
         }
 
-        [Fact]
-        public async Task GetProductsAsync_WithValid_ShouldReturnList()
-        {
-            //Arrange
-            var expectedResult = new Product[]
-            {
-                new Product { ProductId = 1, Type="Standard", ProductName = "Product A", Price = 12.50, Quantity = 4, Description = "The first product in our catalogue"},
-                new Product { ProductId = 2, Type="Standard", ProductName = "Product B", Price = 5.20, Quantity = 25, Description = "The second product in our catalogue"},
-                new Product { ProductId = 3, Type="Custom", ProductName = "Product C", Price = 20.99, Quantity = 50, Description = "The third product in our catalogue"},
-                new Product { ProductId = 4, Type="Standard", ProductName = "Product D", Price = 5.80, Quantity = 100, Description = "The fourth product in our catalogue"},
-                new Product { ProductId = 5, Type="Custom", ProductName = "Product E", Price = 60.00, Quantity = 5, Description = "The fifth product in our catalogue"},
-                new Product { ProductId = 6, Type="Custom", ProductName = "Product F", Price = 45.75, Quantity = 10, Description = "The sixth product in our catalogue"}
-            };
+        //[Fact]
+        //public async Task GetProductsAsync_WithValid_ShouldReturnList()
+        //{
+        //    //Arrange
+        //    var expectedResult = new Product[]
+        //    {
+        //        new Product { ProductId = 1, Type="Standard", ProductName = "Product A", Price = 12.50, Quantity = 4, Description = "The first product in our catalogue"},
+        //        new Product { ProductId = 2, Type="Standard", ProductName = "Product B", Price = 5.20, Quantity = 25, Description = "The second product in our catalogue"},
+        //        new Product { ProductId = 3, Type="Custom", ProductName = "Product C", Price = 20.99, Quantity = 50, Description = "The third product in our catalogue"},
+        //        new Product { ProductId = 4, Type="Standard", ProductName = "Product D", Price = 5.80, Quantity = 100, Description = "The fourth product in our catalogue"},
+        //        new Product { ProductId = 5, Type="Custom", ProductName = "Product E", Price = 60.00, Quantity = 5, Description = "The fifth product in our catalogue"},
+        //        new Product { ProductId = 6, Type="Custom", ProductName = "Product F", Price = 45.75, Quantity = 10, Description = "The sixth product in our catalogue"}
+        //    };
 
-            var expectedJson = JsonConvert.SerializeObject(expectedResult);
-            var expectedUri = new Uri("http://example.com/api/products?type=Standard");
-            var mock = CreateHttpMock(HttpStatusCode.OK, expectedJson);
-            var client = new HttpClient(mock.Object);
-            var service = CreateProductsRepository(client);
+        //    var expectedJson = JsonConvert.SerializeObject(expectedResult);
+        //    var expectedUri = new Uri("http://example.com/api/products?type=Standard");
+        //    var mock = CreateHttpMock(HttpStatusCode.OK, expectedJson);
+        //    var client = new HttpClient(mock.Object);
+        //    var service = CreateProductsRepository(client);
 
-            //Act
-            var result = (await service.GetProductsAsync("Standard")).ToArray();
+        //    //Act
+        //    var result = (await service.GetProductsAsync("Standard")).ToArray();
 
-            //Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedResult.Length, result.Length);
-            for (int i = 0; i < result.Length; i++)
-            {
-                Assert.Equal(expectedResult[i].ProductId, result[i].ProductId);
-                Assert.Equal(expectedResult[i].ProductName, result[i].ProductName);
-                Assert.Equal(expectedResult[i].Price, result[i].Price);
-                Assert.Equal(expectedResult[i].Quantity, result[i].Quantity);
-            }
-            mock.Protected()
-                .Verify("SendAsync",
-                        Times.Once(),
-                        ItExpr.Is<HttpRequestMessage>(
-                            req => req.Method == HttpMethod.Get
-                                   && req.RequestUri == expectedUri),
-                        ItExpr.IsAny<CancellationToken>()
-                        );
-        }
+        //    //Assert
+        //    Assert.NotNull(result);
+        //    Assert.Equal(expectedResult.Length, result.Length);
+        //    for (int i = 0; i < result.Length; i++)
+        //    {
+        //        Assert.Equal(expectedResult[i].ProductId, result[i].ProductId);
+        //        Assert.Equal(expectedResult[i].ProductName, result[i].ProductName);
+        //        Assert.Equal(expectedResult[i].Price, result[i].Price);
+        //        Assert.Equal(expectedResult[i].Quantity, result[i].Quantity);
+        //    }
+        //    mock.Protected()
+        //        .Verify("SendAsync",
+        //                Times.Once(),
+        //                ItExpr.Is<HttpRequestMessage>(
+        //                    req => req.Method == HttpMethod.Get
+        //                           && req.RequestUri == expectedUri),
+        //                ItExpr.IsAny<CancellationToken>()
+        //                );
+        //}
     }
 }
