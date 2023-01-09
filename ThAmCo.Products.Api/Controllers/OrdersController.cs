@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ThAmCo.Products.Web.Data;
+using ThAmCo.Products.Api.Models;
 
-namespace ThAmCo.Products.Web.Controllers
+namespace ThAmCo.Products.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly ProductsContext _context;
+        private readonly OrdersContext _context;
 
-        public OrdersController(ProductsContext context)
+        public OrdersController(OrdersContext context)
         {
             _context = context;
         }
 
         // GET: api/Orders
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();

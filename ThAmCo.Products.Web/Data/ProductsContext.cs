@@ -5,7 +5,6 @@ namespace ThAmCo.Products.Web.Data
     public class ProductsContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Orders { get; set; }
 
         public ProductsContext(DbContextOptions<ProductsContext> options) : base(options)
         {
@@ -24,13 +23,6 @@ namespace ThAmCo.Products.Web.Data
             {
                 p.Property(p => p.ProductId)
                 .ValueGeneratedNever();
-            });
-
-            builder.Entity<Order>(o =>
-            {
-                o.HasOne(p => p.Product)
-                .WithMany()
-                .HasForeignKey(p => p.ProductId);
             });
         }
     }
