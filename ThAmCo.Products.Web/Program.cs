@@ -4,7 +4,7 @@ using Polly;
 using Thamco.Products.Web.Data;
 using ThAmCo.Products.Web.Data;
 using ThAmCo.Products.Web.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Auth0.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,14 +44,10 @@ builder.Services.AddDbContext<ProductsContext>(options =>
     }
 });
 
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = builder.Configuration["Auth:Authority"];
-        options.Audience = builder.Configuration["Auth:Audience"];
-    });
-builder.Services.AddAuthorization();
+builder.Services.AddAuth0WebAppAuthentication(options => {
+    options.Domain = builder.Configuration["Auth:Domain"];
+    options.ClientId = builder.Configuration["Auth:ClientId"];
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

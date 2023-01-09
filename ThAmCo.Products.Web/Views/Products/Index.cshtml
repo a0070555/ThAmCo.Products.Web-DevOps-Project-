@@ -1,8 +1,15 @@
-﻿@model IEnumerable<ThAmCo.Products.Web.Data.Product>
+﻿@using Microsoft.AspNetCore.Mvc.Core
+@model IEnumerable<ThAmCo.Products.Web.Data.Product>
 
 @{
+    if (User.Identity.IsAuthenticated)
+    {
+        
+
+
+//@{
     ViewData["Title"] = "Index";
-}
+//}
 
 <h1>Index</h1>
 
@@ -62,4 +69,11 @@
         </tr>
 }
     </tbody>
-</table>
+        </table>
+
+    }
+    else
+    {
+        @Html.ActionLink("Access Denied", "AccessDenied", "Account");
+    }
+}
