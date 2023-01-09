@@ -6,8 +6,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddDbContext<OrdersContext>
-    (options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Orders;Trusted_Connection=True;MultipleActiveResultSets=true"));
+builder.Services.AddDbContext<OrdersContext>(options =>
+{
+    //if (builder.Environment.IsDevelopment())
+    //{
+    //    var folder = Environment.SpecialFolder.LocalApplicationData;
+    //    var path = Environment.GetFolderPath(folder);
+    //    var dbPath = System.IO.Path.Join(path, "Orders.db");
+    //    options.UseSqlServer($"Data Source={dbPath}");
+    //    options.EnableDetailedErrors();
+    //    options.EnableSensitiveDataLogging();
+    //}
+    //else
+    //{
+        var cs = builder.Configuration.GetConnectionString("OrdersConnection");
+        options.UseSqlServer(cs);
+        options.UseSqlServer(cs, sqlServerOptionsAction: sqlOptions =>
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(6),
+                errorNumbersToAdd: null
+            )
+        );
+//    }
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

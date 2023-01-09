@@ -21,18 +21,18 @@ else
 //Add services to the container
 builder.Services.AddDbContext<ProductsContext>(options =>
 {
-    if (builder.Environment.IsDevelopment())
-    {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        var dbPath = System.IO.Path.Join(path, "products.db");
-        options.UseSqlServer($"Data Source={dbPath}");
-        options.EnableDetailedErrors();
-        options.EnableSensitiveDataLogging();
-    }
-    else
-    {
-        var cs = builder.Configuration.GetConnectionString("ProductsContext");
+    //if (builder.Environment.IsDevelopment())
+    //{
+    //    var folder = Environment.SpecialFolder.LocalApplicationData;
+    //    var path = Environment.GetFolderPath(folder);
+    //    var dbPath = System.IO.Path.Join(path, "products.db");
+    //    options.UseSqlServer($"Data Source={dbPath}");
+    //    options.EnableDetailedErrors();
+    //    options.EnableSensitiveDataLogging();
+    //}
+    //else
+    //{
+        var cs = builder.Configuration.GetConnectionString("ProductsConnection");
         options.UseSqlServer(cs);
         options.UseSqlServer(cs, sqlServerOptionsAction: sqlOptions =>
             sqlOptions.EnableRetryOnFailure(
@@ -41,7 +41,7 @@ builder.Services.AddDbContext<ProductsContext>(options =>
                 errorNumbersToAdd: null
             )
         );
-    }
+ //   }
 });
 
 builder.Services.AddAuth0WebAppAuthentication(options => {
@@ -60,7 +60,7 @@ using (var scope = app.Services.CreateScope())
     if (app.Environment.IsDevelopment())
     {
         var context = services.GetRequiredService<ProductsContext>();
-        //context.Database.Migrate();
+        context.Database.Migrate();
         try
         {
             ProductsInitialiser.InsertTestData(context).Wait();
