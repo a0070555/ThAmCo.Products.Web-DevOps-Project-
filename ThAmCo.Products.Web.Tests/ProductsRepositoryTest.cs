@@ -45,7 +45,7 @@ namespace ThAmCo.Products.WebApp.Tests
         }
 
         [Fact]
-        public async Task GetReviewAsync_WithValid_ShouldOkEntity()
+        public async Task GetProductAsync_WithValid_ShouldOkEntity()
         {
             //Arrange
             var expectedResult = new Product { ProductId = 1, ProductName = "Product A", Price = 12.50, Quantity = 4, Description = "The first product in our catalogue" };
@@ -76,7 +76,7 @@ namespace ThAmCo.Products.WebApp.Tests
         }
 
         [Fact]
-        public async Task GetReviewAsync_WithInvalid_ShouldReturnNull()
+        public async Task GetProductAsync_WithInvalid_ShouldReturnNull()
         {
             //Arrange
             var expectedUri = new Uri("http://example.com/api/products/100");
