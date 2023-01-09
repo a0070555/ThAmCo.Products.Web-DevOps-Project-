@@ -9,10 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThAmCo.Products.Web.Controllers;
-using ThAmCo.Products.Web.Data;
 using ThAmCo.Products.Web.Repositories;
+using ThAmCo.Products.Web.Data;
 
-namespace ThAmCo.Products.Web.Tests
+namespace ThAmCo.Products.WebApp.Tests
 {
     public class ProductsControllerTest
     {

@@ -64,7 +64,7 @@ using (var scope = app.Services.CreateScope())
     if (app.Environment.IsDevelopment())
     {
         var context = services.GetRequiredService<ProductsContext>();
-        context.Database.Migrate();
+        //context.Database.Migrate();
         try
         {
             ProductsInitialiser.InsertTestData(context).Wait();
