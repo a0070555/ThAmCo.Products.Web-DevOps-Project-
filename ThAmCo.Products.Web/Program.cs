@@ -4,6 +4,7 @@ using Polly;
 using Thamco.Products.Web.Data;
 using ThAmCo.Products.Web.Data;
 using ThAmCo.Products.Web.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ else
         .AddPolicyHandler(GetRetryPolicy())
         .AddPolicyHandler(GetCircuitBreakerPolicy());
 }
-
+//Add services to the container
 builder.Services.AddDbContext<ProductsContext>(options =>
 {
     if (builder.Environment.IsDevelopment())
@@ -31,7 +32,7 @@ builder.Services.AddDbContext<ProductsContext>(options =>
     }
     else
     {
-        var cs = builder.Configuration.GetConnectionString("ProductsConnection");
+        var cs = builder.Configuration.GetConnectionString("ProductsContext");
         options.UseSqlServer(cs);
         options.UseSqlServer(cs, sqlServerOptionsAction: sqlOptions =>
             sqlOptions.EnableRetryOnFailure(
@@ -42,6 +43,15 @@ builder.Services.AddDbContext<ProductsContext>(options =>
         );
     }
 });
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["Auth:Authority"];
+        options.Audience = builder.Configuration["Auth:Audience"];
+    });
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -80,6 +90,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
