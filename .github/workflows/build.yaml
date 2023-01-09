@@ -8,7 +8,7 @@ env:
   PROJECT_PATH: ./ThAmCo.Products.Web
   PUBLISH_PATH: ./myapp
   TESTRESULTS_PATH: ./test-results
-  AZURE_WEBAPP_NAME: ThamcoProducts-web
+  AZURE_WEBAPP_NAME: ThamcoProducts-api
 
 jobs:
 
