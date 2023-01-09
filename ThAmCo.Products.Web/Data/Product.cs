@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ThAmCo.Products.Web.Models
+namespace ThAmCo.Products.Web.Data
+
 {
     public class Product
     {

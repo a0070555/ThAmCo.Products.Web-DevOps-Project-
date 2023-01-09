@@ -1,4 +1,4 @@
-namespace ThAmCo.Products.Web.Models
+namespace ThAmCo.Products.Web.Data
 {
     public class ErrorViewModel
     {
