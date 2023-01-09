@@ -1,17 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Products.Web.Data;
+using ThAmCo.Products.Web.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
 {
-    //builder.Services.AddTransient<IProductsRepository, ProductsFakeRepository>();
+    builder.Services.AddTransient<IProductsRepository, ProductsFakeRepository>();
 }
 else
 {
-    //builder.Services.AddHttpClient<IProductsRepository, ProductsRepository>()
-    //    .AddPolicyHandler(GetRetryPolicy())
-    //    .AddPolicyHandler(GetCircuitBreakerPolicy());
+    builder.Services.AddHttpClient<IProductsRepository, ProductsRepository>();
+        //.AddPolicyHandler(GetRetryPolicy())
+        //.AddPolicyHandler(GetCircuitBreakerPolicy());
 }
 
 builder.Services.AddDbContext<ProductsContext>(options =>
